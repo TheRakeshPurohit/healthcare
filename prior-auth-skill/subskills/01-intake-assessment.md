@@ -135,6 +135,9 @@ Inform the user you're validating credentials and codes.
 
    After successful call, display: "CMS Coverage MCP Connector completed successfully - Found policy: [Policy ID] - [Title]"
 
+   **Important:** Also display contextual limitation notice:
+   > "Note: Coverage policies are sourced from Medicare LCDs/NCDs. If this review is for a commercial or Medicare Advantage plan, payer-specific policies may differ."
+
 **If provider not found:**
 
 Display error: "Provider NPI [number] not found or inactive. Per rubric.md policy, requests without verified provider will result in PENDING status (request credentialing documentation)."
@@ -299,6 +302,15 @@ Display assessment summary showing:
 Inform user: "Generating audit justification document..."
 
 **Generate comprehensive Markdown report with the following sections:**
+
+**0. Disclaimer Header (REQUIRED - must appear at top of document)**
+
+```
+⚠️ AI-ASSISTED DRAFT - REVIEW REQUIRED
+Coverage policies reflect Medicare LCDs/NCDs only. If this review is for a
+commercial or Medicare Advantage plan, payer-specific policies were not applied.
+All decisions require human clinical review before finalization.
+```
 
 1. **Executive Summary**
    - Request ID, review date, reviewed by

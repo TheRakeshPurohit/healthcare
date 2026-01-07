@@ -93,7 +93,20 @@ Before generating letters, check if custom templates exist in the `template/` fo
 - If a template file is found for the decision type, read and use it as the base template
 - If no template found, generate a nicely formatted pdf.
 
-Based on final decision, generate appropriate content in visually appealing pdf format, following the template if available:
+Based on final decision, generate appropriate content in visually appealing pdf format, following the template if available.
+
+**REQUIRED: Disclaimer Header**
+
+All notification letters MUST include the following disclaimer at the top of the document (before any other content):
+
+```
+⚠️ AI-ASSISTED DRAFT - REVIEW REQUIRED
+Coverage policies reflect Medicare LCDs/NCDs only. If this review is for a
+commercial or Medicare Advantage plan, payer-specific policies were not applied.
+All decisions require human clinical review before finalization.
+```
+
+This disclaimer must appear prominently at the header/top of every notification letter generated.
 
 ---
 

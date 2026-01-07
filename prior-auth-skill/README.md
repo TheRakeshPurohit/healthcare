@@ -468,9 +468,16 @@ For detailed error messages and troubleshooting steps, refer to SKILL.md error h
 - Compliance and legal review for denials
 
 **Known Limitations:**
-- Simulated policy database (requires real payer integration)
-- Simulated eligibility verification (requires real eligibility system)
-- Provider verification checks NPI registry only (not network/credentialing status)
+
+| Data Source | Details |
+|-------------|---------|
+| **Coverage Policies** | CMS Coverage MCP provides Medicare LCDs/NCDs. Commercial and MA payer-specific policies require custom integration. |
+| **Eligibility Verification** | Not implemented. Member coverage status must be verified separately. |
+| **Provider Verification** | Verifies provider exists in NPPES. Does not check network participation or credentialing status. |
+| **Diagnosis Codes (ICD-10)** | ICD-10 MCP provides code validation and details. |
+| **Procedure Codes (CPT/HCPCS)** | WebFetch to CMS Physician Fee Schedule for validation. |
+
+**Other Limitations:**
 - English-language documentation only
 - Requires structured clinical notes (not handwritten)
 
