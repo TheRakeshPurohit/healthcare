@@ -92,6 +92,30 @@ Inform the user you're validating credentials and codes.
 
 1. **NPI Lookup** via NPI MCP:
 
+   **First, check for demo/test mode:**
+
+   Demo mode activates ONLY when BOTH conditions are met:
+   1. NPI is a recognized demo NPI: `1234567890` or `1234567893`
+   2. Member ID matches sample data: `1EG4-TE5-MK72` or `1EG4TE5MK72`
+
+   **IMPORTANT: Demo mode ONLY affects NPI lookup.** All MCP servers must still be connected and operational. Demo mode does NOT skip:
+   - ICD-10 MCP validation (still required)
+   - CMS Coverage MCP policy search (still required)
+   - Any other MCP calls
+
+   If BOTH conditions are met (demo mode):
+   - Skip NPPES lookup for this specific NPI only
+   - Set `provider_verified = True`
+   - Display: "Demo mode: Skipping NPPES lookup for sample NPI. Note: All other MCP validations (ICD-10, CMS Coverage) still apply."
+   - Use placeholder provider details: "Demo Provider, MD (Specialty from request)"
+   - Proceed with remaining validations (ICD-10, CMS Coverage, etc.)
+
+   If only NPI matches but member ID does not match sample data:
+   - Treat as real NPI and proceed with normal NPPES lookup
+   - This prevents accidental demo mode activation in production
+
+   **For real NPIs (or demo NPI without matching sample member ID):**
+
    Display: "Verifying provider credentials via NPI MCP Connector..."
 
    ```python
@@ -134,6 +158,9 @@ Inform the user you're validating credentials and codes.
    - Find applicable LCDs/NCDs for service
 
    After successful call, display: "CMS Coverage MCP Connector completed successfully - Found policy: [Policy ID] - [Title]"
+
+   **Important:** Also display contextual limitation notice:
+   > "Note: Coverage policies are sourced from Medicare LCDs/NCDs. If this review is for a commercial or Medicare Advantage plan, payer-specific policies may differ."
 
 **If provider not found:**
 
@@ -299,6 +326,15 @@ Display assessment summary showing:
 Inform user: "Generating audit justification document..."
 
 **Generate comprehensive Markdown report with the following sections:**
+
+**0. Disclaimer Header (REQUIRED - must appear at top of document)**
+
+```
+⚠️ AI-ASSISTED DRAFT - REVIEW REQUIRED
+Coverage policies reflect Medicare LCDs/NCDs only. If this review is for a
+commercial or Medicare Advantage plan, payer-specific policies were not applied.
+All decisions require human clinical review before finalization.
+```
 
 1. **Executive Summary**
    - Request ID, review date, reviewed by
@@ -471,12 +507,9 @@ Ask if ready to proceed to Subskill 2 (Y/N):
 
 ### MCP Connector Unavailable
 
-Display warning: "MCP Connector Unavailable - Cannot access required healthcare data connectors."
+Display error: "MCP Connector Unavailable - Cannot access required healthcare data connectors. This skill requires all three MCP connectors (CMS Coverage, ICD-10, NPI) to function. Please configure the missing connectors and try again. See README Prerequisites for setup instructions."
 
-Offer options:
-1. Continue without MCP verification (not recommended)
-2. Manually verify and continue
-3. Abort and configure MCP
+Exit subskill and return to main menu.
 
 ### Low Confidence Clinical Extraction
 
