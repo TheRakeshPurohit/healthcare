@@ -204,7 +204,7 @@ Demo mode activates ONLY when **both** conditions are met:
 
 **What it does:**
 - Loads assessment from Subskill 1
-- Confirms or allows override of recommendation
+- Human reviews recommendation and actively confirms, rejects, or overrides it
 - Generates authorization number (if approved)
 - Creates denial rationale with appeal rights (if denied)
 - Generates documentation requests (if pended)
