@@ -280,3 +280,15 @@ For detailed guidance, see:
 6. Validate required fields → 422 for missing
 7. Validate enum values → 422 for invalid
 8. Search returns Bundle with `type: "searchset"`
+
+---
+
+## Quick Start Script
+
+To scaffold a new FHIR API project with correct Pydantic v2 patterns:
+
+```bash
+python scripts/setup_fhir_project.py my_fhir_api
+```
+
+Creates a FastAPI project with correct models, OperationOutcome helpers, and Patient CRUD endpoints.
