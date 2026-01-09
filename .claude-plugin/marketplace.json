@@ -62,6 +62,13 @@
       "description": "Search biomedical literature from PubMed",
       "category": "healthcare",
       "tags": ["pubmed", "literature", "research", "medical", "pmc"]
+    },
+    {
+      "name": "icd10-codes",
+      "source": "./icd10-codes",
+      "description": "Access ICD-10-CM and ICD-10-PCS code sets",
+      "category": "healthcare",
+      "tags": ["icd-10", "diagnosis", "procedure", "billing", "medical-coding"]
     }
   ]
 }
