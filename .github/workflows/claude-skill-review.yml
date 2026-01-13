@@ -59,7 +59,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      issues: read
+      issues: write
       id-token: write
 
     steps:
@@ -82,10 +82,11 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/skills.git'
           plugins: 'example-skills@anthropic-agent-skills'
+          claude_args: '--allowedTools "Bash(gh pr comment:*),Read,Glob,Grep"'
           prompt: |
             /skill-creator
 
-            Review the changes to the **${{ matrix.skill }}** skill in PR ${{ github.repository }}/pull/${{ github.event.pull_request.number }}.
+            Review the changes to the **${{ matrix.skill }}** skill in PR #${{ github.event.pull_request.number }}.
 
             Changed files in this skill:
             ${{ steps.skill-files.outputs.files }}
@@ -97,3 +98,6 @@ jobs:
             **Skill Review**: Evaluate the skill as a whole against skill-creator best practices.
 
             **PR-Specific Feedback**: Call out any issues that are specifically introduced or addressed by the changes in this PR.
+
+            When done, post your review as a PR comment using:
+            gh pr comment ${{ github.event.pull_request.number }} --body "YOUR_REVIEW_HERE"
