@@ -1,15 +1,17 @@
-name: Claude Skill Review
+name: Claude Plugin Review
 
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
     paths:
       - '**/SKILL.md'
-      - '**/skills/**'
+      - '**/*-skill/**'
       - '**/.claude-plugin/**'
+      - '**/plugin.json'
+      - '**/marketplace.json'
 
 jobs:
-  skill-review:
+  plugin-review:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,16 +25,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run Claude Skill Review
+      - name: Run Claude Plugin Review
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/agent-skills.git'
           plugins: 'skill-creator@anthropic-agent-skills'
           prompt: |
-            Review the skill changes in PR ${{ github.repository }}/pull/${{ github.event.pull_request.number }} using the skill-creator guidelines.
+            Review the plugin changes in PR ${{ github.repository }}/pull/${{ github.event.pull_request.number }}.
 
-            Focus your review on these key areas:
+            First, identify what type of changes are being made:
+            - **Skills**: Changes to SKILL.md files or *-skill/ directories
+            - **MCP Servers**: Changes to plugin.json with mcpServers configuration
+            - **Marketplace Config**: Changes to marketplace.json
+
+            Then apply the appropriate review criteria:
+
+            ---
+
+            ## For Skills (SKILL.md changes)
+
+            Use the skill-creator guidelines to review:
 
             **1. Frontmatter Quality**
             - Does SKILL.md have proper YAML frontmatter with `name` and `description` fields?
@@ -65,4 +78,38 @@ jobs:
             - No deeply nested references (keep one level deep)?
             - Large reference files (>100 lines) have table of contents?
 
-            Provide specific, actionable feedback for any issues found. Be constructive and explain why each suggestion improves the skill.
+            ---
+
+            ## For MCP Servers (plugin.json with mcpServers)
+
+            **1. Plugin Metadata**
+            - Has required fields: name, version, description, author
+            - Description clearly explains what the MCP server provides
+            - Version follows semver format
+
+            **2. MCP Server Configuration**
+            - mcpServers object has descriptive key names
+            - Server type is appropriate (http, stdio, etc.)
+            - URL is valid and uses HTTPS for http type
+
+            **3. Documentation**
+            - Is there a README or similar explaining how to use the MCP?
+            - Are any required API keys or authentication documented?
+
+            ---
+
+            ## For Marketplace Config (marketplace.json)
+
+            **1. Plugin Entry**
+            - New plugins have: name, source, description, category, tags
+            - Description is clear and concise
+            - Tags are relevant and consistent with existing patterns
+            - Source path is correct
+
+            **2. Consistency**
+            - Follows existing patterns in the marketplace
+            - Category matches the marketplace theme
+
+            ---
+
+            Provide specific, actionable feedback for any issues found. Be constructive and explain why each suggestion improves the plugin.
