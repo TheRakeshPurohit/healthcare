@@ -1,5 +1,3 @@
-# Claude Skill Review
-# Automatically reviews skill changes in PRs using the skill-creator skill
 name: Claude Skill Review
 
 on:
@@ -97,4 +95,4 @@ jobs:
 
             If this is a new skill, provide a full review. If it's changes to an existing skill, focus on the specific changes. Evaluate against skill-creator best practices.
 
-            Post your feedback as a comment using `gh pr comment`. Use the skill title in the header with the path as a subtitle. Keep feedback concise and actionable - blocking issues first, then suggestions.
+            Post your feedback as a comment using `gh pr comment`. Use the skill title in the header. Keep feedback concise and actionable - blocking issues first, then suggestions.
