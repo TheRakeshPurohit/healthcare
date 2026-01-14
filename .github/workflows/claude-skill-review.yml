@@ -86,7 +86,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           plugin_marketplaces: 'https://github.com/anthropics/skills.git'
           plugins: 'example-skills@anthropic-agent-skills'
-          claude_args: '--allowedTools "Bash(gh pr comment:*),Bash(git:*),Read,Glob,Grep"'
+          claude_args: '--allowedTools "Bash(gh pr comment:*),Bash(git:*),Read,Glob,Grep,Skill"'
           prompt: |
             Use the skill-creator skill to review the **${{ matrix.skill }}** skill in PR #${{ github.event.pull_request.number }}.
 
