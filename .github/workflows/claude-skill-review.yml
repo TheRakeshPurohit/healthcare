@@ -72,14 +72,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed files for this skill
-        id: skill-files
-        run: |
-          changed_files=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -F "${{ matrix.skill }}/" || true)
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$changed_files" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
       - name: Run Claude Skill Review
         uses: anthropics/claude-code-action@v1
         with:
@@ -90,9 +82,6 @@ jobs:
           prompt: |
             Use the skill-creator skill to review the **${{ matrix.skill }}** skill in PR #${{ github.event.pull_request.number }}.
 
-            Changed files in this skill:
-            ${{ steps.skill-files.outputs.files }}
-
-            Use `git diff origin/${{ github.base_ref }}` to see what changed. If this is a new skill, provide a full review. If it's changes to an existing skill, focus on the changes.
+            Use `git diff origin/${{ github.base_ref }} -- ${{ matrix.skill }}/` to see what changed. If this is a new skill, provide a full review. If it's changes to an existing skill, focus on the changes.
 
             Post your feedback as a comment using `gh pr comment`. Use the skill title in the header.
