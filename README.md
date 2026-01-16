@@ -10,7 +10,7 @@ Skills for healthcare workflows including clinical trials, prior authorization r
 
 # Install skills
 /plugin install fhir-developer@healthcare
-/plugin install prior-auth@healthcare
+/plugin install prior-auth-review@healthcare
 /plugin install clinical-trial-protocol@healthcare
 ```
 
@@ -26,7 +26,7 @@ Connect healthcare systems faster with specialized knowledge of HL7 FHIR R4 for 
 ---
 
 ### Prior Authorization Review (Demo)
-**Plugin ID**: `prior-auth@healthcare`
+**Plugin ID**: `prior-auth-review@healthcare`
 
 Demo skill that digests prior auth request documentation, performs initial checks (NPI, ICD-10, CMS Coverage, CPT), and summarizes the argument for medical necessity. Customize for your own use cases.
 
